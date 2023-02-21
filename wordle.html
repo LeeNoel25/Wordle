@@ -6,62 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wordle</title>
     <link rel="stylesheet" href="wordle.css" />
-    <script defer src="wordle.js"></script>
+    <script defer src="wordle2.js"></script>
   </head>
   <body>
     <h1>WORDLE</h1>
-
     <div id="intro">
-      <button id="play">PLAY</button>
+      <button id="playButton">PLAY</button> 
+      <button id="fourLetters">4 Letters</button>
+      <button id="fiveLetters">5 Letters</button>
+      <button id="sixLetters">6 Letters</button>
     </div>
 
     <div id="game">
-      <h2>GAME START</h2>
-      <table border="1">
-        <thead></thead>
-        <tbody></tbody>
-      </table>
-      <div id="keyboard">
-        <div id="buttonsR1">
-          <button class="letter">Q</button>
-          <button class="letter">W</button>
-          <button class="letter">E</button>
-          <button class="letter">R</button>
-          <button class="letter">T</button>
-          <button class="letter">Y</button>
-          <button class="letter">U</button>
-          <button class="letter">I</button>
-          <button class="letter">O</button>
-          <button class="letter">P</button>
-        </div>
-        <div id="buttonsR2">
-          <button class="letter">A</button>
-          <button class="letter">S</button>
-          <button class="letter">D</button>
-          <button class="letter">F</button>
-          <button class="letter">G</button>
-          <button class="letter">H</button>
-          <button class="letter">J</button>
-          <button class="letter">K</button>
-          <button class="letter">L</button>
-        </div>
-        <div id="buttonsR3">
-          <button id="enter">ENTER</button>
-          <button class="letter">Z</button>
-          <button class="letter">X</button>
-          <button class="letter">C</button>
-          <button class="letter">V</button>
-          <button class="letter">B</button>
-          <button class="letter">N</button>
-          <button class="letter">M</button>
-          <button class="erase">Backspace</button>
-        </div>
-      </div>
+      <div id="gameBoard"></div>
+      <div id="keyBoard"></div>
     </div>
 
-    <div id="stats">
-      <h2>STATISTICS</h2>
-      <button id="playagain">PLAY AGAIN!</button>
+    <div id="scoreBoard">
+      <button id="playAgainButton">PLAY AGAIN</button>
     </div>
   </body>
 </html>

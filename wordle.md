@@ -1,5 +1,4 @@
 16/2
-
 Additional functions:
 Difficulty bar - disappearing rows
 Music bar
@@ -19,11 +18,10 @@ screen three: played, win %, current streak, max streak
 
 work on screens
 work on game table
-6 rows, 4 columns
-if loop // next row// change color // win game
 
 random answer, picking random string from array
-text box
-check answer
+**work on keyboard && text box/row**
+**keyboard function**
 
-work on keyboard
+**check answer**
+if loop // next row// change color // win game
