@@ -166,7 +166,7 @@ function renderKeyboard() {
       const newCell = document.createElement("div");
       newCell.className = "keyCell";
       newCell.innerText = KEYS[i][j].char;
-      KEYS[i][j].element = newCell;
+      // KEYS[i][j].element = newCell;
 
       if (KEYS[i][j].char === "ENTER") {
         newCell.addEventListener("click", () => {
@@ -201,7 +201,7 @@ function handleKeyInput(clickedKey) {
   // Backspace **display has delay in showing**
   if (inputChar === "BACKSPACE") {
     displayElementText = "";
-    // gamePosition --
+    gamePosition--;
     if (gamePosition < 0) {
       gamePosition = 0;
     }
@@ -211,7 +211,6 @@ function handleKeyInput(clickedKey) {
       alert("congrats"); // to change to score screen
       return;
     }
-
     for (let i = 0; i < userAnswer.length; i++) {
       if (userAnswer[i] === gameWord[i]) {
         keyElement.style.backgroundColor = "green";
@@ -224,7 +223,6 @@ function handleKeyInput(clickedKey) {
         displayElement.style.backgroundColor = "red";
       }
     }
-
     gameRound++;
     gamePosition = 0;
     return;
@@ -287,9 +285,9 @@ function sixLetters() {
 //   .then((response) => response.text())
 //   .then((data) => {
 // playButton.style.visibility = "visible";
-fourLetters.addEventListener("click", fourLetters);
-fiveLetters.addEventListener("click", fiveLetters);
-sixLetters.addEventListener("click", sixLetters);
+// fourLetters.addEventListener("click", fourLetters);
+// fiveLetters.addEventListener("click", fiveLetters);
+// sixLetters.addEventListener("click", sixLetters);
 
 playButton.addEventListener("click", onPlayGame);
 selectWord(WORD_LENGTH);

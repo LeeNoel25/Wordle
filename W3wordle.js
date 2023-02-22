@@ -1,6 +1,4 @@
 /*----- constants -----*/
-let GAME_WIDTH = 4;
-let CHANCES = 6;
 const WORDLIST = [
   "wolf",
   "wasp",
@@ -113,11 +111,17 @@ const gameBoard = document.querySelector("#gameBoard");
 const keyBoard = document.querySelector("#keyBoard");
 const replayButton = document.querySelector("#playAgainButton");
 
+let GAME_WIDTH = 4;
+let CHANCES = 6;
+let playerGuess = [];
+//
+let guessesRemaining = CHANCES;
+let cellIndex = 0;
+
 /*----- functions -----*/
 function toGameScreen() {
   game.screen = "game";
 }
-
 function selectWord(wordLength) {
   let filteredWords = [];
   // Filter words based on desired length
@@ -130,24 +134,108 @@ function selectWord(wordLength) {
   const randomIndex = Math.floor(Math.random() * filteredWords.length);
   return filteredWords[randomIndex];
 }
-
 function renderScreen() {
   screenList.forEach((ele) => ele.classList.add("hidden"));
   const showScreen = document.querySelector("#" + game.screen);
   showScreen.classList.remove("hidden");
 }
-
 function renderGameBoard() {
-  for (let i = 0; i < GAME_ROUNDS; i++) {
+  console.log("test");
+  for (let i = 0; i < CHANCES; i++) {
     const boardRow = document.createElement("div");
-    for (let j = 0; j < CHANCES; j++) {
-      const boardCell = document.createElement("div");
+    boardRow.classList.add("boardRow");
+    for (let j = 0; j < GAME_WIDTH; j++) {
+      const boardCell = document.createElement("span");
       boardCell.innerText = "";
-      gameBoard.appendChild(boardCell);
+      boardCell.classList.add("boardCell");
+      boardRow.appendChild(boardCell);
     }
     gameBoard.appendChild(boardRow);
   }
 }
-
 renderGameBoard();
-// renderKeyboard();
+
+function renderKeyBoard() {
+  console.log("dog");
+  for (let i = 0; i < KEYS.length; i++) {
+    const keyRow = document.createElement("div");
+    keyRow.classList.add("keyRow");
+    for (let j = 0; j < KEYS[i].length; j++) {
+      const keyCell = document.createElement("span");
+      keyCell.innerText = KEYS[i][j].char;
+      keyCell.classList.add("keyCell"); // cursor: pointer;
+      /////////
+      keyCell.addEventListener("click", (key) => {
+        let clickedChar = key.char;
+        if (clickedChar === "ENTER") {
+          checkPlayerGuess();
+          return;
+        } else if (clickedChar === "BACKSPACE" && cellIndex !== 0) {
+          deleteLetter();
+          return;
+        } else {
+          inputKeys(clickedChar);
+        }
+      });
+      //       if (KEYS[i][j].char === "ENTER") {
+      //         keyCell.addEventListener("click", () => {
+      //           checkPlayerGuess();
+      //           // return;
+      //         });
+      //       } else if (KEYS[i][j].char === "BACKSPACE" && cellIndex !== 0) {
+      //         keyCell.addEventListener("click", () => {
+      //           deleteLetter();
+      //           // return;
+      //         });
+      //       } else {
+      //         keyCell.addEventListener("click", () => {
+      //           inputKeys(KEYS[i][j]);
+      //         });
+      keyRow.appendChild(keyCell);
+    }
+    //
+    keyBoard.appendChild(keyRow);
+  }
+}
+
+renderKeyBoard();
+
+function inputKeys(clickedKey) {
+  console.log(cellIndex); // 0
+  // Max chances reached
+  if (guessesRemaining === 0) {
+    return;
+  }
+  // Max chances reached
+  if (cellIndex === GAME_WIDTH + 1) {
+    return;
+  }
+  // Letters
+  let inputChar = clickedKey ? clickedKey.char : ""; // chatGPT: added a check for clickedKey to make sure it is defined before trying to access its char property. If clickedKey is undefined, we set inputChar to an empty string.
+  let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining];
+  let cell = row.children[cellIndex]; // free code camp - try gameBoard[i][j]
+  cell.innerText = inputChar;
+  cell.classList.add("filled-cell"); // free code camp
+  playerGuess.push(inputChar); // ["C", ...]
+  cellIndex++;
+}
+
+inputKeys();
+
+function deleteLetter() {
+  // gets the correct row, finds the last box and empties it, and then resets the nextLetter counter
+  let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining];
+  let cell = row.children[cellIndex - 1];
+  cell.innerText = "";
+  cell.classList.remove("filled-cell");
+  playerGuess.pop;
+  cellIndex--;
+}
+
+function checkPlayerGuess() {
+  console.log("test");
+}
+
+function changeCellColor() {
+  console.log("test");
+}
