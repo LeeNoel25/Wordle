@@ -25,7 +25,7 @@ Wordle - Animal Edition is a fun and engaging way to test your word-guessing ski
 WIREFRAME
 [Title: Wordle - Animal Edition]
 
-[Header: Image of an animal, with game title above]
+[Header: Game title]
 
 [Main Content Area: Game Board]
 
@@ -39,9 +39,4 @@ Display feedback for each guess:
 "Yellow" circle to indicate a correct letter in the wrong position
 "Red" circle to indicate an incorrect letter
 
-After six attempts, display a message to indicate if the player has won or lost, and reveal the hidden word
-[Footer: Instructions and options]
-
-Display instructions on how to play the game
-Display a "New Game" button to start a new round with a new hidden word
-Display an option to switch to a different category of words (e.g. food, countries, sports)
+After six attempts, display a message to indicate if the player has won or lost
