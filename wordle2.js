@@ -291,3 +291,6 @@ function sixLetters() {
 
 playButton.addEventListener("click", onPlayGame);
 selectWord(WORD_LENGTH);
+
+
+

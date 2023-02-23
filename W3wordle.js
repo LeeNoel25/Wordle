@@ -110,6 +110,7 @@ const introScreen = document.querySelector("#intro");
 const gameScreen = document.querySelector("#game");
 const statScreen = document.querySelector("#stats");
 const screenList = [introScreen, gameScreen, statScreen];
+const levelButtons = document.querySelector("#levelButtons");
 //
 const gameBoard = document.querySelector("#gameBoard");
 const keyBoard = document.querySelector("#keyBoard");
@@ -131,6 +132,7 @@ let winStreak = 0;
 function resetGameBoard() {
   gameBoard.innerHTML = "";
   keyBoard.innerHTML = "";
+  guessesRemaining = 6;
   cellIndex = 0;
   playerGuess = [];
   gameAnswer = gameWord(GAME_WIDTH);
@@ -159,9 +161,11 @@ function renderScreen() {
 function toGameScreen() {
   SCREEN = "game";
 }
-
 function playGame() {
   playButton.style.display = "none";
+  introScreen.style.display = "none";
+  gameScreen.style.display = "block";
+  // levelButtons.style.display = "flex";
   resetGameBoard();
 }
 //----------------------------------------
@@ -185,7 +189,6 @@ function renderKeyBoard() {
   for (let i = 0; i < KEYS.length; i++) {
     const keyRow = document.createElement("div");
     keyRow.classList.add("keyRow");
-
     for (let j = 0; j < KEYS[i].length; j++) {
       const keyCell = document.createElement("span");
       keyCell.innerText = KEYS[i][j].char;
@@ -219,10 +222,9 @@ function inputKeys(clickedKey) {
   let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining]; // 0
   let cell = row.children[cellIndex]; // free code camp - try gameBoard[i][j] // 0
   cell.innerText = clickedKey;
-
-  cell.classList.add("filled-cell"); // free code camp
   playerGuess.push(clickedKey); // ["C", ...]
   cellIndex++;
+  // console.log(cellIndex);
 }
 
 function deleteLetter() {
@@ -230,58 +232,63 @@ function deleteLetter() {
   let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining];
   let cell = row.children[cellIndex - 1]; // children
   cell.innerText = "";
-  cell.classList.remove("filled-cell");
   playerGuess.pop();
+  console.log(cellIndex);
   cellIndex--;
+  console.log(cellIndex);
   // if ((cell.innerText = "")) {
   //   return;
   // }
 }
 
 function checkPlayerGuess() {
-  let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining]; // gameBoard
-  let keyboardRow = document.querySelectorAll(".keyRow"); // keyBoard
   if (playerGuess.length != GAME_WIDTH) {
     alert("Not enough letters!");
     return;
   }
-  if (playerGuess.join("") === gameAnswer) {
-    alert("congrats");
-    winStreak++;
-    resetGameBoard();
-    return;
-  }
+  let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining]; // gameBoard
+  // let gameBoardCell = document.querySelectorAll(".boardCell"); --- gameBoard
+  let keyboardRows = document.querySelectorAll(".keyRow"); // keyBoard
+  // let keyboardCell = document.querySelectorAll(".keyCell"); --- keyBoard
+
+  // used to locate displaybox in board
   for (let i = 0; i < playerGuess.length; i++) {
     const letter = playerGuess[i];
     const correctLetter = gameAnswer[i];
     const box = row.children[i];
     // used to locate key in keyboard
-    let x = 0;
-    let y = 0;
+    let xIndex = 0;
+    let yIndex = 0;
     for (let j = 0; j < KEYS.length; j++) {
+      // 3
       const row = KEYS[j];
       for (let k = 0; k < row.length; k++) {
         const key = row[k].char;
         if (key === letter) {
-          x = j;
-          y = k;
+          xIndex = j;
+          yIndex = k;
         }
       }
     }
-    const key = keyboardRow[x].children[y];
+    const key = keyboardRows[xIndex].children[yIndex];
 
     if (letter === correctLetter) {
       box.style.backgroundColor = "green";
       key.style.backgroundColor = "green";
-      continue;
-    }
-    if (gameAnswer.includes(letter)) {
+    } else if (gameAnswer.includes(letter)) {
       box.style.backgroundColor = "yellow";
       key.style.backgroundColor = "yellow";
-      continue;
+    } else {
+      box.style.backgroundColor = "red";
+      key.style.backgroundColor = "red";
     }
-    box.style.backgroundColor = "red";
-    key.style.backgroundColor = "red";
+
+    if (playerGuess.join("") === gameAnswer) {
+      alert("congrats");
+      winStreak++;
+      resetGameBoard();
+      return;
+    }
   }
   guessesRemaining--;
 
@@ -291,7 +298,6 @@ function checkPlayerGuess() {
     resetGameBoard();
     return;
   }
-
   cellIndex = 0;
   playerGuess = [];
 }
@@ -324,5 +330,8 @@ main();
 
 // Swiitch between screens
 // win lose GIF - MODAL, music
-// playername - scoregame
-// change screen size according to viewing platform
+// win streakcounter
+// wireframe/markdown
+
+// playername - scoregame/win streak
+// change screen size according to viewing viewing platform

@@ -10,19 +10,26 @@
   </head>
 
   <body>
-    <h1>WORDLE</h1>
-
+    <h1>Wordle - Animal Edition</h1>
     <div id="intro">
+      <p>
+        Guess the correct word within six attempts. Each attempt reveals new
+        information to guide you towards the right answer. 
+        <ul>
+          <li>If a letter turns "Green," this means that the letter is in the word and in the correct
+          spot. </li>
+          <li>If a letter turns "Yellow," this means that the letter is in the
+          word but in the wrong spot.</li>  
+          <li>If a letter turns "Red," this means that the letter is not in the word at all.</li>
+      </p>
       <button id="playButton">PLAY</button>
     </div>
 
     <div id="game">
-      <button id="fourLetters">4 Letters</button>
-      <button id="fiveLetters">5 Letters</button>
-      <button id="sixLetters">6 Letters</button>
+      <button id="fourLetters">Easy</button>
+      <button id="fiveLetters">Medium</button>
+      <button id="sixLetters">Hard</button>
       <div id="gameBoard"></div>
-      <p></p>
-      <p></p>
       <div id="keyBoard"></div>
     </div>
 
