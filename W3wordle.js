@@ -103,7 +103,7 @@ const KEYS = [
 ];
 let SCREEN = "intro";
 /*----- cached elements  -----*/
-//
+
 const playbutton = document.querySelector("#playButton");
 
 const introScreen = document.querySelector("#intro");
@@ -111,7 +111,7 @@ const gameScreen = document.querySelector("#game");
 const statScreen = document.querySelector("#stats");
 const screenList = [introScreen, gameScreen, statScreen];
 const levelButtons = document.querySelector("#levelButtons");
-//
+
 const gameBoard = document.querySelector("#gameBoard");
 const keyBoard = document.querySelector("#keyBoard");
 const replayButton = document.querySelector("#playAgainButton");
@@ -119,15 +119,15 @@ const replayButton = document.querySelector("#playAgainButton");
 let GAME_WIDTH = 4;
 let CHANCES = 6;
 let playerGuess = [];
-//
 let guessesRemaining = CHANCES;
 let cellIndex = 0;
 let winStreak = 0;
 
-//
-// let gameBoardCell = [];
-
 /*----- functions -----*/
+function renderCaption() {
+  const caption = document.querySelector("#Winstreak");
+  caption.textContent = `Win Streak ${winStreak}`;
+}
 
 function resetGameBoard() {
   gameBoard.innerHTML = "";
@@ -139,6 +139,7 @@ function resetGameBoard() {
   console.log(gameAnswer);
   renderGameBoard();
   renderKeyBoard();
+  renderCaption();
 }
 function gameWord(wordLength) {
   let filteredWords = [];
@@ -158,26 +159,20 @@ function renderScreen() {
   const showScreen = document.querySelector("#" + SCREEN);
   showScreen.classList.remove("hidden");
 }
-function toGameScreen() {
-  SCREEN = "game";
-}
+
 function playGame() {
   playButton.style.display = "none";
   introScreen.style.display = "none";
   gameScreen.style.display = "block";
-  // levelButtons.style.display = "flex";
   resetGameBoard();
 }
-//----------------------------------------
+
 function renderGameBoard() {
-  // gameBoardCell = []
   for (let i = 0; i < CHANCES; i++) {
-    // gameBoardCell[i] = [];
     const boardRow = document.createElement("div");
     boardRow.classList.add("boardRow");
     for (let j = 0; j < GAME_WIDTH; j++) {
       const boardCell = document.createElement("span");
-      boardCell.innerText = ""; // maybe not needed
       boardCell.classList.add("boardCell");
       boardRow.appendChild(boardCell);
     }
@@ -192,7 +187,7 @@ function renderKeyBoard() {
     for (let j = 0; j < KEYS[i].length; j++) {
       const keyCell = document.createElement("span");
       keyCell.innerText = KEYS[i][j].char;
-      keyCell.classList.add("keyCell"); // cursor: pointer;
+      keyCell.classList.add("keyCell");
       keyCell.addEventListener("click", (key) => {
         let clickedChar = key.target.innerText;
         if (clickedChar === "ENTER") {
@@ -207,7 +202,6 @@ function renderKeyBoard() {
       });
       keyRow.appendChild(keyCell);
     }
-    //
     keyBoard.appendChild(keyRow);
   }
 }
@@ -220,25 +214,22 @@ function inputKeys(clickedKey) {
   // Letters
   // identifying the present cell
   let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining]; // 0
-  let cell = row.children[cellIndex]; // free code camp - try gameBoard[i][j] // 0
+  let cell = row.children[cellIndex]; // free code camp
   cell.innerText = clickedKey;
   playerGuess.push(clickedKey); // ["C", ...]
   cellIndex++;
-  // console.log(cellIndex);
 }
 
 function deleteLetter() {
   // gets the correct row, finds the last box and empties it, and then resets the nextLetter counter
   let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining];
-  let cell = row.children[cellIndex - 1]; // children
+  let cell = row.children[cellIndex - 1];
+  if (cell.innerText === "") {
+    return;
+  }
   cell.innerText = "";
   playerGuess.pop();
-  console.log(cellIndex);
   cellIndex--;
-  console.log(cellIndex);
-  // if ((cell.innerText = "")) {
-  //   return;
-  // }
 }
 
 function checkPlayerGuess() {
@@ -247,31 +238,29 @@ function checkPlayerGuess() {
     return;
   }
   let row = document.querySelectorAll(".boardRow")[CHANCES - guessesRemaining]; // gameBoard
-  // let gameBoardCell = document.querySelectorAll(".boardCell"); --- gameBoard
   let keyboardRows = document.querySelectorAll(".keyRow"); // keyBoard
-  // let keyboardCell = document.querySelectorAll(".keyCell"); --- keyBoard
 
-  // used to locate displaybox in board
+  // used to locate specific displaybox in board
   for (let i = 0; i < playerGuess.length; i++) {
     const letter = playerGuess[i];
     const correctLetter = gameAnswer[i];
     const box = row.children[i];
-    // used to locate key in keyboard
-    let xIndex = 0;
-    let yIndex = 0;
+    // used to locate index of specific key in keyboard (row+key)
+    let jIndex = 0; // 3
+    let kIndex = 0; // ~9
     for (let j = 0; j < KEYS.length; j++) {
-      // 3
       const row = KEYS[j];
       for (let k = 0; k < row.length; k++) {
         const key = row[k].char;
         if (key === letter) {
-          xIndex = j;
-          yIndex = k;
+          jIndex = j;
+          kIndex = k;
         }
       }
     }
-    const key = keyboardRows[xIndex].children[yIndex];
+    const key = keyboardRows[jIndex].children[kIndex];
 
+    // Coloring the displayboard and keyboard
     if (letter === correctLetter) {
       box.style.backgroundColor = "green";
       key.style.backgroundColor = "green";
@@ -283,17 +272,18 @@ function checkPlayerGuess() {
       key.style.backgroundColor = "red";
     }
 
+    // Game is won
     if (playerGuess.join("") === gameAnswer) {
-      alert("congrats");
+      showModal(modalWin);
       winStreak++;
       resetGameBoard();
       return;
     }
   }
   guessesRemaining--;
-
+  // Game is lost
   if (guessesRemaining === 0) {
-    alert("Try Again!");
+    showModal(modalLose);
     winStreak = 0;
     resetGameBoard();
     return;
@@ -301,7 +291,7 @@ function checkPlayerGuess() {
   cellIndex = 0;
   playerGuess = [];
 }
-// Put difficulty options - add reset the game board
+// Rendering the game board and difficulty options
 function main() {
   playbutton.addEventListener("click", playGame);
 
@@ -328,10 +318,18 @@ function main() {
 }
 main();
 
-// Swiitch between screens
-// win lose GIF - MODAL, music
-// win streakcounter
-// wireframe/markdown
+//-- MODAL ---//
+let modalWin = document.querySelector("#modal-win"); //modal for winning & losing screen
+let modalLose = document.querySelector("#modal-lose");
 
-// playername - scoregame/win streak
-// change screen size according to viewing viewing platform
+function showModal(modal) {
+  return new Promise((resolve) => {
+    setTimeout(function () {
+      resolve((modal.style.display = "block"));
+    }, 500);
+  }).then(function () {
+    setTimeout(function () {
+      modal.style.display = "none";
+    }, 4000);
+  });
+}

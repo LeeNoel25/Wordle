@@ -10,22 +10,33 @@
   </head>
 
   <body>
-    <h1>Wordle - Animal Edition</h1>
+    <h1 id="title">Wordle - Animal Edition</h1>
     <div id="intro">
       <p>
         Guess the correct word within six attempts. Each attempt reveals new
-        information to guide you towards the right answer. 
-        <ul>
-          <li>If a letter turns "Green," this means that the letter is in the word and in the correct
-          spot. </li>
-          <li>If a letter turns "Yellow," this means that the letter is in the
-          word but in the wrong spot.</li>  
-          <li>If a letter turns "Red," this means that the letter is not in the word at all.</li>
+        information to guide you towards the right answer.
       </p>
+      <ul>
+        <li>
+          If a letter turns <span style="color: green">"Green"</span>, this
+          means that the letter is in the word and in the correct spot.
+        </li>
+        <li>
+          If a letter turns
+          <span style="color: rgb(155, 155, 17)">"Yellow"</span>, this means
+          that the letter is in the word but in the wrong spot.
+        </li>
+        <li>
+          If a letter turns <span style="color: red">"Red"</span>, this means
+          that the letter is not in the word at all.
+        </li>
+      </ul>
+
       <button id="playButton">PLAY</button>
     </div>
 
     <div id="game">
+      <div id="Winstreak">Winstreak</div>
       <button id="fourLetters">Easy</button>
       <button id="fiveLetters">Medium</button>
       <button id="sixLetters">Hard</button>
@@ -33,8 +44,17 @@
       <div id="keyBoard"></div>
     </div>
 
-    <div id="stats">
-      <!-- <button id="playAgainButton">PLAY AGAIN</button> -->
+    <div id="modal-lose" style="display: none">
+      <h1>Game Over</h1>
+      <img src="images/Cry.gif" alt="Crying man" />
+      <p>`The answer was ${gameAnswer}, Try Again!`</p>
+    </div>
+
+    <div>
+      <div id="modal-win" style="display: none">
+        <h1>Well Done!</h1>
+        <img src="images/Otter.gif" alt="Clapping Otter" />
+      </div>
     </div>
   </body>
 </html>
