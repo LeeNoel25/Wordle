@@ -323,13 +323,8 @@ let modalWin = document.querySelector("#modal-win"); //modal for winning & losin
 let modalLose = document.querySelector("#modal-lose");
 
 function showModal(modal) {
-  return new Promise((resolve) => {
-    setTimeout(function () {
-      resolve((modal.style.display = "block"));
-    }, 500);
-  }).then(function () {
-    setTimeout(function () {
-      modal.style.display = "none";
-    }, 4000);
-  });
+  modal.style.display = "block";
+  setTimeout(function () {
+    modal.style.display = "none";
+  }, 4000);
 }
