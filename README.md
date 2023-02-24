@@ -1,3 +1,5 @@
+SEI-42: Project 1
+
 # **Wordle - Animal Edition**
 Wordle is a word guessing game where the player attempts to guess a secret word in a certain number of attempts. Each incorrect guess results in more information being revealed about the secret word. Wordle - Animal Edition features an animal-themed word bank, providing a fun and educational experience for players of all ages.
 
@@ -14,5 +16,5 @@ HTML
 CSS
 JavaScript
 
-### **Resources**
+### **References**
 Game logic from <a href="https://www.freecodecamp.org/">freecodecamp</a><br/>
